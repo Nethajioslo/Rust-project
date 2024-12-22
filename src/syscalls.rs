@@ -10,6 +10,8 @@
 use core::ffi::c_void;
 use core::ptr;
 
+extern crate libc;
+
 // Global variables
 static mut HEAP_END: *mut u8 = ptr::null_mut();
 static mut ENV: [*const u8; 1] = [ptr::null()];
@@ -37,7 +39,7 @@ pub extern "C" fn _exit(status: i32) -> ! {
 }
 
 #[no_mangle]
-pub extern "C" fn _read(file: i32, ptr: *mut u8, len: i32) -> i32 {
+pub extern "C" fn _read(_file: i32, ptr: *mut u8, len: i32) -> i32 {
     let mut count = 0;
     while count < len {
         unsafe {

@@ -1,0 +1,8 @@
+.vscode
+*.code-workspace
+.vs/
+
+bazel-*
+user.bazerrc
+MODULE.*
+/target/*

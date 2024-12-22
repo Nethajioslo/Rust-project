@@ -6,7 +6,12 @@
  * @brief   Default main function.
  ******************************************************************************
  */
-use crate::{led_init_all, led_on, led_off, LED_GREEN, LED_ORANGE, LED_BLUE, LED_RED};
+mod led;
+mod syscalls;
+use syscalls::initialise_monitor_handles;
+use stm32_startup;
+
+use crate::led::{led_init_all, led_on, led_off, LED_GREEN, LED_ORANGE, LED_BLUE, LED_RED};
 
 use core::ptr::{read_volatile, write_volatile};
 

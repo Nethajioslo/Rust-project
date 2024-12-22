@@ -1,0 +1,19 @@
+# There are many warnings that lead to errors on Clang and GCC (maybe even MSVC)
+# because of the compiler and version disparity, we're opting to eat the risk and silence all warnings
+
+# build --cxxopt="-std=c++17" --copt="-w" --experimental_isolated_extension_usages
+
+# Required on windows
+common --enable_platform_specific_config
+# startup --windows_enable_symlinks
+build:windows --enable_runfiles=no
+
+build --incompatible_merge_fixed_and_default_shell_env
+
+common --enable_bzlmod
+
+build --stamp
+
+common --lockfile_mode=off
+
+output --directory_creation_cache=true

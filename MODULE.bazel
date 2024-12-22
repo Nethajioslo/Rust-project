@@ -4,3 +4,62 @@
 #
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
+#https://github1s.com/OpenMined/PSI/blob/56b31413e2d5ec147d402c43dd92d34fc524b4eb/MODULE.bazel
+
+module(
+name = "my_rust_project",
+version = "1.0.0",
+)
+# https://github.com/bazelbuild/rules_rust/releases
+bazel_dep(name = "rules_rust", version = "0.47.1")
+
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+
+# Rust toolchain
+RUST_EDITION = "2021"
+
+RUST_VERSION = "1.79.0"
+
+rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
+rust.toolchain(
+    edition = RUST_EDITION,
+    versions = [RUST_VERSION],
+)
+use_repo(rust, "rust_toolchains")
+
+register_toolchains("@rust_toolchains//:all")
+
+crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
+
+# External crates
+crate.from_cargo(
+    name = "crates",
+    cargo_lockfile = "//:Cargo.lock",
+    manifests = ["//:Cargo.toml"],
+)
+use_repo(crate, "crates")
+
+# """
+# bazel_dep(name = "rules_cc", version = "0.0.17")
+# bazel_dep(name = "rules_python", version = "0.36.0")
+
+# python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+
+# python.toolchain(python_version = "3.12",)
+
+# use_repo(python,
+#     # register toolchains
+#     "python_3_12",
+#     # Handy helper for all
+#     "python_versions",
+# )
+# """
+
+# # From loca cargo.toml file
+# crate = use_extension("@rules_rust//crate_universe:extensions.bzl", "crate")
+# crate.from_cargo(
+#     name = "crates",
+#     cargo_lockfile = "//:Cargo.lock",
+#     manifests = ["//:Cargo.toml"],
+# )
+# use_repo(crate, "crates")
